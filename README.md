@@ -1,1 +1,2 @@
 new Django project!
+🎻🎹🥰

@@ -24,3 +24,4 @@ class Reservtion(core_models.TimeStampedModel):
 
     def __str__(self):
         return f"{self.student}님 | {self.status} | 예약 시간: {self.meeting_time} | 장소 : {self.meeting_address}"
+

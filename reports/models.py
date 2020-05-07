@@ -12,6 +12,7 @@ class Report(core_models.TimeStampedModel):
         "users.User", on_delete=models.CASCADE, related_name="instructor"
     )
     goal = models.CharField(max_length=200)
+    due_date = models.DateField(blank=True, null=True)
     lesson_date = models.DateField(default=datetime.date.today)
     lesson_contents = models.TextField()
     good_point = models.CharField(max_length=200, null=True, blank=True)

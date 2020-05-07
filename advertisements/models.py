@@ -68,6 +68,8 @@ class Advertisement(core_models.TimeStampedModel):
     student = models.ForeignKey(user_models.User, on_delete=models.CASCADE)
     instrument = models.ForeignKey(instrumentChoice, on_delete=models.CASCADE)
     category = models.CharField(max_length=10, choices=LESSON_CATEGORY)
+    min_fee = models.IntegerField(default=0)
+    max_fee = models.IntegerField(default=0)
     current_skill = models.TextField()
     skill_reference = models.FileField(null=True, blank=True)
     goal = models.CharField(max_length=100)
@@ -80,7 +82,6 @@ class Advertisement(core_models.TimeStampedModel):
     )
     desired_starting_date = models.DateField(null=True, blank=True)
     city = models.CharField(max_length=80, null=True, blank=True)
-    wanna_test_class = models.BooleanField(default=False)
     lesson_type = models.ManyToManyField(LessonType)
     prefer_style = models.ManyToManyField(PreferStyle)
 

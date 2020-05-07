@@ -44,6 +44,8 @@ class Resume(core_models.TimeStampedModel):
     resume_title = models.CharField(max_length=100, default="렛슨 제안서 제목을 입력해주세요")
     instructor = models.ForeignKey(user_models.User, on_delete=models.CASCADE)
     instrument = models.ForeignKey(instrumentChoice, on_delete=models.CASCADE)
+    city = models.CharField(max_length=80, null=True, blank=True)
+    fee = models.IntegerField()
     final_degree = models.CharField(
         max_length=80, choices=DEGREE_CHOICES, null=True, blank=True
     )
@@ -60,9 +62,6 @@ class Resume(core_models.TimeStampedModel):
     awards = models.TextField(null=True, blank=True)
     career = models.TextField(null=True, blank=True)
     youtube_link = models.URLField(null=True, blank=True)
-    city = models.CharField(max_length=80, null=True, blank=True)
-    fee = models.IntegerField()
-    is_test_class_possible = models.BooleanField(default=False)
     is_super_instructor = models.BooleanField(default=False)
 
     def __str__(self):

@@ -5,4 +5,14 @@ from . import models
 @admin.register(models.Reservtion)
 class ReservatioAdmin(admin.ModelAdmin):
 
-    pass
+    list_display = (
+        "status",
+        "student",
+        "resume",
+        "meeting_time",
+        "meeting_address",
+    )
+
+    search_fields = ("student__username",)
+
+    ordering = ("status",)

@@ -42,8 +42,12 @@ class Resume(core_models.TimeStampedModel):
         YEAR_CHOICES.append((r, r))
 
     resume_title = models.CharField(max_length=100, default="렛슨 제안서 제목을 입력해주세요")
-    instructor = models.ForeignKey(user_models.User, on_delete=models.CASCADE)
-    instrument = models.ForeignKey(instrumentChoice, on_delete=models.CASCADE)
+    instructor = models.ForeignKey(
+        user_models.User, related_name="resumes", on_delete=models.CASCADE
+    )
+    instrument = models.ForeignKey(
+        instrumentChoice, related_name="resumes", on_delete=models.CASCADE
+    )
     city = models.CharField(max_length=80, null=True, blank=True)
     fee = models.IntegerField()
     final_degree = models.CharField(
@@ -67,12 +71,23 @@ class Resume(core_models.TimeStampedModel):
     def __str__(self):
         return f"{self.instrument}렛슨 - {self.instructor},{self.city}"
 
+    def total_rating(self):
+        all_reviews = self.reviews.all()
+        all_ratings = 0
+        for review in all_reviews:
+            all_ratings += review.rating_avg()
+        return all_ratings / len(all_reviews)
+
+    def save(self, *args, **kwargs):
+        self.city = str.capitalize(self.city)
+        super().save(*args, **kwargs)
+
 
 class Photo(core_models.TimeStampedModel):
 
     caption = models.CharField(max_length=100)
-    file = models.ImageField()
-    resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
+    file = models.ImageField(upload_to="profile_pics")
+    resume = models.ForeignKey(Resume, related_name="photos", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.caption

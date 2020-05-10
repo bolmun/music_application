@@ -65,8 +65,12 @@ class Advertisement(core_models.TimeStampedModel):
         (LESSON_TIME_EVENING, "pm.6 - pm.9"),
     )
 
-    student = models.ForeignKey(user_models.User, on_delete=models.CASCADE)
-    instrument = models.ForeignKey(instrumentChoice, on_delete=models.CASCADE)
+    student = models.ForeignKey(
+        user_models.User, related_name="ads", on_delete=models.CASCADE
+    )
+    instrument = models.ForeignKey(
+        instrumentChoice, related_name="ads", on_delete=models.CASCADE
+    )
     category = models.CharField(max_length=10, choices=LESSON_CATEGORY)
     min_fee = models.IntegerField(default=0)
     max_fee = models.IntegerField(default=0)
@@ -76,14 +80,18 @@ class Advertisement(core_models.TimeStampedModel):
     lesson_count_per_week = models.CharField(
         max_length=10, choices=COUNT_CHOICE, blank=True, null=True
     )
-    desired_lesson_days = models.ManyToManyField(LessonDay)
+    desired_lesson_days = models.ManyToManyField(LessonDay, related_name="ads")
     desired_lesson_time = models.CharField(
         max_length=20, choices=LESSON_TIME_CHOICE, blank=True, null=True
     )
     desired_starting_date = models.DateField(null=True, blank=True)
     city = models.CharField(max_length=80, null=True, blank=True)
-    lesson_type = models.ManyToManyField(LessonType)
-    prefer_style = models.ManyToManyField(PreferStyle)
+    lesson_type = models.ManyToManyField(LessonType, related_name="ads")
+    prefer_style = models.ManyToManyField(PreferStyle, related_name="ads")
 
     def __str__(self):
         return f"{self.instrument}렛슨, 목표는 {self.goal}"
+
+    def save(self, *args, **kwargs):
+        self.city = str.capitalize(self.city)
+        super().save(*args, **kwargs)

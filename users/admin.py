@@ -12,3 +12,16 @@ class CustomUserAdmin(UserAdmin):
             {"fields": ("avatar", "gender", "birthdate", "superlecturer",)},
         ),
     )
+
+    list_filter = UserAdmin.list_filter + ("superlecturer",)
+
+    list_display = (
+        "username",
+        "first_name",
+        "last_name",
+        "email",
+        "is_active",
+        "is_staff",
+        "superlecturer",
+        "is_superuser",
+    )

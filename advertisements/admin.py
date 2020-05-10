@@ -6,7 +6,11 @@ from . import models
     models.LessonType, models.PreferStyle, models.instrumentChoice, models.LessonDay,
 )
 class ItemAdmin(admin.ModelAdmin):
-    pass
+
+    list_display = ("title", "used_by")
+
+    def used_by(self, obj):
+        return obj.ads.count()
 
 
 @admin.register(models.Advertisement)
@@ -41,7 +45,6 @@ class AdvertisementAdmin(admin.ModelAdmin):
         "category",
         "city",
         "lesson_count_per_week",
-        "count_lesson_days",
         "desired_lesson_time",
         "count_style",
     )
@@ -71,8 +74,7 @@ class AdvertisementAdmin(admin.ModelAdmin):
         "desired_lesson_time",
     )
 
-    def count_lesson_days(self, obj):
-        return obj.desired_lesson_days.count()
-
     def count_style(self, obj):
         return obj.prefer_style.count()
+
+    count_style.short_description = "선호 렛슨 스타일"

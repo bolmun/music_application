@@ -2,7 +2,7 @@ from django.contrib import admin
 from . import models
 
 
-@admin.register(models.Reservtion)
+@admin.register(models.Reservation)
 class ReservatioAdmin(admin.ModelAdmin):
 
     list_display = (
@@ -11,7 +11,11 @@ class ReservatioAdmin(admin.ModelAdmin):
         "resume",
         "meeting_time",
         "meeting_address",
+        "in_progress",
+        "is_finished",
     )
+
+    list_filter = ("status",)
 
     search_fields = ("student__username",)
 

@@ -38,6 +38,8 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
+THIRD_PARTY_APPS = ["django_seed"]
+
 PROJECT_APPS = [
     "users.apps.UsersConfig",
     "advertisements.apps.AdvertisementsConfig",

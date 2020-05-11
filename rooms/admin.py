@@ -3,7 +3,7 @@ from django.utils.html import mark_safe
 from . import models
 
 
-@admin.register(models.Amenity, models.Facility, models.Rule)
+@admin.register(models.Amenity, models.Facility, models.Rule, models.RoomType)
 class ItemAdmin(admin.ModelAdmin):
 
     list_display = ("title", "used_by")
@@ -24,7 +24,20 @@ class RoomAdmin(admin.ModelAdmin):
     fieldsets = (
         ("Basic Info", {"fields": ("name", "city", "address", "description")},),
         ("Price", {"fields": ("price_per_hour",)},),
-        ("Spaces", {"fields": ("capacity", "amenities", "facilities", "rules")},),
+        (
+            "Spaces",
+            {
+                "fields": (
+                    "room_types",
+                    "capacity",
+                    "amenities",
+                    "facilities",
+                    "rules",
+                    "is_wind_possible",
+                    "is_percussion_possible",
+                )
+            },
+        ),
         ("More Detail", {"fields": ("all_day", "instant_book", "host")},),
     )
 

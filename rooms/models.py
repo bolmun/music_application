@@ -28,6 +28,11 @@ class Rule(AbstractItem):
         verbose_name_plural = "Rules"
 
 
+class RoomType(AbstractItem):
+    class Meta:
+        verbose_name_plural = "Room Types"
+
+
 class Room(core_models.TimeStampedModel):
 
     name = models.CharField(max_length=150)
@@ -38,10 +43,17 @@ class Room(core_models.TimeStampedModel):
     capacity = models.IntegerField()
     amenities = models.ManyToManyField(Amenity, related_name="rooms", blank=True)
     facilities = models.ManyToManyField(Facility, related_name="rooms", blank=True)
+    room_types = models.ForeignKey(
+        RoomType, related_name="rooms", on_delete=models.CASCADE, default="Select",
+    )
+    is_wind_possible = models.BooleanField(default=False)
+    is_percussion_possible = models.BooleanField(default=False)
     rules = models.ManyToManyField(Rule, related_name="rooms", blank=True)
     all_day = models.BooleanField(default=False)
     instant_book = models.BooleanField(default=False)
-    host = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    host = models.ForeignKey(
+        "users.User", related_name="rooms", on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.name

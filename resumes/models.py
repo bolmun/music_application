@@ -46,7 +46,7 @@ class Resume(core_models.TimeStampedModel):
         user_models.User, related_name="resumes", on_delete=models.CASCADE
     )
     instrument = models.ForeignKey(
-        instrumentChoice, related_name="resumes", on_delete=models.CASCADE
+        instrumentChoice, related_name="resumes", on_delete=models.PROTECT
     )
     city = models.CharField(max_length=80, null=True, blank=True)
     fee = models.IntegerField()
@@ -74,9 +74,11 @@ class Resume(core_models.TimeStampedModel):
     def total_rating(self):
         all_reviews = self.reviews.all()
         all_ratings = 0
-        for review in all_reviews:
-            all_ratings += review.rating_avg()
-        return all_ratings / len(all_reviews)
+        if len(all_reviews) > 0:
+            for review in all_reviews:
+                all_ratings += review.rating_avg()
+            return round((all_ratings / len(all_reviews)), 1)
+        return 0
 
     def save(self, *args, **kwargs):
         self.city = str.capitalize(self.city)

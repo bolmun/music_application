@@ -45,6 +45,8 @@ class AdvertisementAdmin(admin.ModelAdmin):
         "category",
         "city",
         "lesson_count_per_week",
+        "min_fee",
+        "max_fee",
         "desired_lesson_time",
         "count_style",
     )

@@ -37,9 +37,16 @@ class LessonDay(AbstractItem):
 class Advertisement(core_models.TimeStampedModel):
 
     LESSON_HOBBY = "hobby"
-    LESSON_EXAM = "entrance exam"
+    LESSON_EVENT = "event"
+    LESSON_EXAM = "exam"
+    LESSON_COMPETITION = "competition"
 
-    LESSON_CATEGORY = ((LESSON_EXAM, "입시"), (LESSON_HOBBY, "취미"))
+    LESSON_CATEGORY = (
+        (LESSON_HOBBY, "취미"),
+        (LESSON_EVENT, "이벤트/경조사 연주"),
+        (LESSON_EXAM, "입시"),
+        (LESSON_COMPETITION, "콩쿠르"),
+    )
 
     COUNT_ONE = "1"
     COUNT_TWO = "2"
@@ -69,9 +76,11 @@ class Advertisement(core_models.TimeStampedModel):
         user_models.User, related_name="ads", on_delete=models.CASCADE
     )
     instrument = models.ForeignKey(
-        instrumentChoice, related_name="ads", on_delete=models.CASCADE
+        instrumentChoice, related_name="ads", on_delete=models.PROTECT
     )
-    category = models.CharField(max_length=10, choices=LESSON_CATEGORY)
+    category = models.CharField(
+        max_length=15, choices=LESSON_CATEGORY, null=False, blank=False
+    )
     min_fee = models.IntegerField(default=0)
     max_fee = models.IntegerField(default=0)
     current_skill = models.TextField()

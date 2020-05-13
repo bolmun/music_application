@@ -24,5 +24,4 @@ class ReportAdmin(admin.ModelAdmin):
         ("Homework", {"fields": ("homework",)},),
     )
 
-    list_filter = ("instructor",)
     search_fields = ("^student__username", "^instructor__username")

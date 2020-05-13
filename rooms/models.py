@@ -44,7 +44,7 @@ class Room(core_models.TimeStampedModel):
     amenities = models.ManyToManyField(Amenity, related_name="rooms", blank=True)
     facilities = models.ManyToManyField(Facility, related_name="rooms", blank=True)
     room_types = models.ForeignKey(
-        RoomType, related_name="rooms", on_delete=models.CASCADE, default="Select",
+        RoomType, related_name="rooms", on_delete=models.CASCADE
     )
     is_wind_possible = models.BooleanField(default=False)
     is_percussion_possible = models.BooleanField(default=False)

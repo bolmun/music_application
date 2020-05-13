@@ -17,7 +17,7 @@ class Reservation(core_models.TimeStampedModel):
     )
 
     status = models.CharField(
-        max_length=15, choices=STATUS_CHOICE, default=STATUS_PENDING
+        max_length=15, choices=STATUS_CHOICE, blank=False, null=False
     )
     student = models.ForeignKey(
         "users.User", related_name="reservations", on_delete=models.CASCADE
@@ -29,7 +29,7 @@ class Reservation(core_models.TimeStampedModel):
     meeting_address = models.CharField(max_length=200)
 
     def __str__(self):
-        return f"{self.student}님 | {self.status} | 예약 시간: {self.meeting_time} | 장소 : {self.meeting_address}"
+        return f"{self.student}님 | {self.status} | 예약 시간: {self.meeting_time}"
 
     def in_progress(self):
         now = timezone.now()
